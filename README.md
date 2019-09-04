@@ -52,6 +52,7 @@ Intel 660p Series SSD
 
 - PCIe NVMe 3.0 x4
 - M.2 2280
+- 500GB is more than enough space
 
 ### Additional components
 
@@ -74,10 +75,28 @@ Multiple options are possible, mostly RedHat derived.
 
 ### Software
 
-- nftables firewall
-- dhcpd
-- DNSMasq
-- WireGuard VPN
-- 389 Directory Server (as a Red Hat library?)
-- Let's Encrypt, possibly with custom code
-- Some NAS tools like a backup server?
+#### nftables firewall
+
+As a friend put it, "Well, I have this old setup with iptables and whatnot...
+but you, you're building this fresh and new. So *you're* going to try out the
+new stuff, like _nftables_."
+
+#### DNSMasq (DNS, DHCP, RAs for IPv6)
+
+#### WireGuard VPN
+
+My concerns about VPNs are generally about sketchy public wifi access points,
+and less so about my internet activity being tracked. As such, I think running
+a VPN to my home network is reasonable.
+
+#### 389 Directory Server (as a Red Hat library?)
+
+With a small posse of ThinkPads all running essentially the same configuration,
+it would be nice to have one login across all of them. With an LDAP server on
+the network's gateway, that could be done.
+
+#### Let's Encrypt, possibly with custom code
+
+It would be useful to be able to get key signing abilities established, such as
+being able to RDP into a machine without the certificate warning popping up and
+interrupting me.
