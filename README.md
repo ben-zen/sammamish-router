@@ -41,6 +41,7 @@ Supermicro MBD-M11SDV-4CT-LN4F-O
 - MiniITX formfactor
 - AMD EPYC 3101 SOC
 - Intel i350 NIC with 4 gigabit ethernet ports
+- PCIe 3.0 x16 slot
 
 ### RAM
 
@@ -52,7 +53,7 @@ Intel 660p Series SSD
 
 - PCIe NVMe 3.0 x4
 - M.2 2280
-- 500GB is more than enough space
+- 1 Terabyte of storage, for some unexplained reason
 
 ### Additional components
 
@@ -73,6 +74,10 @@ Multiple options are possible, mostly RedHat derived.
 - Fedora 30
 - CentOS 8 (not yet released)
 
+In light of the availability of one, but not the other: Fedora 30 it is. This
+is far from actually a surprise, and if updates end up being tedious, CentOS
+should have shipped at that point.
+
 ### Software
 
 #### nftables firewall
@@ -83,17 +88,22 @@ new stuff, like _nftables_."
 
 #### DNSMasq (DNS, DHCP, RAs for IPv6)
 
+I want DNS, I need DHCP for IPv4, and I may need specific limited features of
+DHCPv6, such as supplying addresses of DNS servers and the like. DNSMasq has
+all of the abilities we're looking for.
+
 #### WireGuard VPN
 
 My concerns about VPNs are generally about sketchy public wifi access points,
 and less so about my internet activity being tracked. As such, I think running
 a VPN to my home network is reasonable.
 
-#### 389 Directory Server (as a Red Hat library?)
+#### FreeIPA (which includes 389 Directory Server)
 
 With a small posse of ThinkPads all running essentially the same configuration,
 it would be nice to have one login across all of them. With an LDAP server on
-the network's gateway, that could be done.
+the network's gateway, that could be done. Also, I could configure Kerberos for
+a reason I do not yet understand. So probably not.
 
 #### Let's Encrypt, possibly with custom code
 
