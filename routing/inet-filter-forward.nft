@@ -1,0 +1,13 @@
+chain lan_in {
+    # rules for traffic to LAN nodes
+}
+
+chain lan_out {
+    # rules for traffic from LAN to the internet
+}
+
+chain forward {
+    type filter hook forward priority 0; policy drop;
+    jump global
+
+}

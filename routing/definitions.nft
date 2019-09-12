@@ -1,0 +1,11 @@
+# interfaces
+# what are these even?
+define nic_inet = eno1
+define nic_lan = eno2 # consider bridging 2-4?
+
+# network layout
+define net_ipv4_lan = 10.0.1.0/24
+
+# known machines
+define loowit_ipv4 = 10.0.1.2
+define verbatim_ipv4 = 10.0.1.3

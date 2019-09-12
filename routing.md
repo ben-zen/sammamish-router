@@ -19,3 +19,12 @@ This network will be routed using both IPv4 and IPv6.
 ## IP address filtering (IPv4)
 
 `nft add table ip filter`
+
+## IPv6
+
+`conf/all/forwarding` should be set to 1
+
+### Router Advertisements & Solicitations
+
+- Turn on RAs for eno2-4, since those are LAN ports
+- Turn on RSes for eno1, since that's the WAN port
