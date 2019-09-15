@@ -110,3 +110,29 @@ a reason I do not yet understand. So probably not.
 It would be useful to be able to get key signing abilities established, such as
 being able to RDP into a machine without the certificate warning popping up and
 interrupting me.
+
+## Build notes
+
+### Case oddities
+
+The case came with a faceplate, but it's one for an older layout of Supermicro
+I/O, and as such doesn't work with the new layouts. The normal I/O shield also
+doesn't fit, so I'll need to order the correct faceplate.
+
+The PSU came with a full 20-pin ATX power connector, even though this board's
+pinout only requires 4 of the pins; I'll correct for this by pulling pins from
+the ATX connector and attaching them to the 4-pin piece, then cutting down the
+remaining ATX pins.
+
+There is a fan mount adapter that I didn't get, but I think I'll 3d print one,
+and add a carbon filter slot behind it.
+
+### Software additions and changes
+
+Notes from setting up `sshd`:
+
+- Re-order the host keys to put `ed25519` first
+- Uncomment the `PubkeyAuthentication yes` line to enable use of keys for auth
+- Ensure that `~/.ssh` and files under it are only writeable by the user!
+
+dnsmasq is already installed, but needs to be set up 
