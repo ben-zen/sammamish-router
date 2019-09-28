@@ -34,6 +34,9 @@ Supermicro Superchassis CSE-505-203B
 - 200W power supply
 - Micro-ITX mount
 
+Extra/replacement faceplate: Supermicro MCP-260-00085-0B
+Has all the correct ports instead of the one the above ships with.
+
 ### Motherboard and CPU
 
 Supermicro MBD-M11SDV-4CT-LN4F-O
@@ -134,5 +137,7 @@ Notes from setting up `sshd`:
 - Re-order the host keys to put `ed25519` first
 - Uncomment the `PubkeyAuthentication yes` line to enable use of keys for auth
 - Ensure that `~/.ssh` and files under it are only writeable by the user!
+- After adding your public key from at least one machine, disable passwords for
+  ssh for better security against drive-by attempts.
 
-dnsmasq is already installed, but needs to be set up 
+dnsmasq is already installed, but needs to be set up.
