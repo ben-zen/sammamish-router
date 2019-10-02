@@ -9,7 +9,7 @@ to end well, and instead I moved to using systemd's networkd directly.
 
 ### SSH
 
-YOu gotta use SSH. It's the way to talk to a server! Since it's also 2019, we
+You gotta use SSH. It's the way to talk to a server! Since it's also 2019, we
 can use newer standards than RSA-4096 for our keys. Get with the times and use
 some elliptic curves! Use Curve25519, it's fine, really. You too can have your
 public key on a single line, and read it too.
@@ -139,3 +139,30 @@ able to continue.
 My first impression of Wireguard is that it is still not an approachable tool.
 There's a lot of sharp edges, and the software relies on its users having broad
 technical backgrounds.
+
+WireGuard installation is currently ongoing.
+
+### LDAP server
+
+Not yet planned out fully.
+
+### Logging
+
+I'd love to run a logging utility to study my network in a bit more detail
+
+### Controlling the fit-statUSB
+
+There's a small RGB LED USB (can we get a few more 3-letter initialisms?) on
+the front of the case because I wanted some sort of blinkenlight. Currently it
+pulses between dimmer red and brigher red, because that's what I set it to do,
+but ideally it will provide some sort of status update for me based on activity
+or system status.
+
+### DDNS updating
+
+I like being able to use a name to connect to my home network, versus trying to
+remember my IP address that one time. So, I have DDNS set up-but I currently
+manually update my IP every time it changes. It seems changing out how DHCP was
+run caused a re-assignment of my home IP, so I had a little fun one afternoon,
+which really just showed why I need to add this service. I'm actively searching
+for a tool for this purpose.

@@ -129,15 +129,3 @@ remaining ATX pins.
 
 There is a fan mount adapter that I didn't get, but I think I'll 3d print one,
 and add a carbon filter slot behind it.
-
-### Software additions and changes
-
-Notes from setting up `sshd`:
-
-- Re-order the host keys to put `ed25519` first
-- Uncomment the `PubkeyAuthentication yes` line to enable use of keys for auth
-- Ensure that `~/.ssh` and files under it are only writeable by the user!
-- After adding your public key from at least one machine, disable passwords for
-  ssh for better security against drive-by attempts.
-
-dnsmasq is already installed, but needs to be set up.
