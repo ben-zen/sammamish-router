@@ -14,6 +14,13 @@ can use newer standards than RSA-4096 for our keys. Get with the times and use
 some elliptic curves! Use Curve25519, it's fine, really. You too can have your
 public key on a single line, and read it too.
 
+My specific tweaks to the sshd configuration are as follows:
+
+- Don't use passwords to log in. Only allow authorized keys!
+- Don't allow root logins, at all.
+- Re-order the checked host keys to put ed25519 as the first key.
+- Have your users all use ed25519 where possible. I guess RSA is maybe fine.
+
 ### DHCP and SLAAC
 
 DHCP is going to be served by dnsmasq on this server, which is a matter of the
@@ -29,13 +36,6 @@ have a personal domain name, consider using it here!
 - `domain=internal.home.net` : Pick a domain name to use for the network!
 - `dhcp-range=10.0.1.0,10.0.1.200.12h`: I decided on the `10.0.1.0/24` network
 
-#### firewalld configuration
-
-Of course, having a daemon running to provide DHCP responses and track devices
-is only useful if it can receive and respond to those requests! I had to set
-interface `eno2` to the `internal` zone, which I enabled DNS and DHCP services
-on--i.e., traffic flowing over the standard ports for those protocols.
-
 ### DNS
 
 #### dnsmasq DNS configuration changes
@@ -48,6 +48,12 @@ up. Pick DNS servers you trust and are useful to you!
 - `address=/router.lan/10.0.1.1`: Add your router's internal domain name and
   ip address, since the router is not going to use DHCP to assign its address,
   and so can't get added to the database automatically.
+- `rebind-domain-ok=/plex.direct/`: I have a Plex server behind this firewall,
+  and since I've got a symmetric gigabit connection, I want to be able to pull
+  streaming content directly from my home network, and the best way to do that
+  is port forwarding for IPv4. IPv6 ... doesn't appear to be an issue yet. To
+  properly stream directly from that server, however, dnsmasq needs to allow
+  rebinding specifically for Plex. (This is maybe unnecessary?)
 
 I also took a chance to make sure I've mitigated a nasty vuln; search CERT in
 the config file to learn more.
@@ -58,6 +64,52 @@ Set up the IPForward rule for all interfaces you want traffic to cross, and
 establish any particular routing operations you want to forward; for example,
 if there's an internal server that specifically handles HTTP/S or SSH, you can
 set that in firewalld.
+
+### Firewall rules
+
+All of the instructions in this section were run with `sudo`, because the rules
+for accessing the firewall require root privileges. Additionally, these rules
+should all be applied permanently, as well as set for the running instance. You
+can either run the commands twice, or run them all with the `--permanent` flag,
+then restart firewalld to apply the configuration.
+
+#### Assigning nftables zones
+
+FirewallD on this machine defaults to the FedoraServer zone, which is not very
+useful for us. You can set the default if that's useful.
+
+```shell
+# Add other interfaces for the internal-facing network here.
+firewall-cmd --zone=internal --add-interface=eno2
+firewall-cmd --zone=internal --add-interface=docker0 # Yes, docker...
+firewall-cmd --zone=external --add-interface=eno1
+# Traffic routed out of this server should use this server's IPv4 address.
+firewall-cmd --add-masquerade
+# Ensure the server is reachable for SSH both inside and outside the network.
+firewall-cmd --zone=internal --add-service=ssh
+firewall-cmd --zone=external --add-service=ssh
+# Let the server handle DHCP and DNS requests - inside the network.
+firewall-cmd --zone=internal --add-service=dhcp
+firewall-cmd --zone=internal --add-service=dns
+```
+
+#### Plex port forwarding
+
+To make sure my local plex server can directly route traffic, we're going to
+forward Plex's preferred port, 32400, to my system. In the event of multiple
+Plex servers on one network, you'll need a separate port for each server that
+is looking to publically route data.
+
+```shell
+firewall-cmd --zone=external --add-forward-port=port=32400:proto=tcp:toaddr=192.168.2.3
+firewall-cmd --zone=external --add-forward-port=port=32400:proto=udp:toaddr=192.168.2.3
+```
+
+#### Other servers and services
+
+Currently, I don't have other services that need specific routing; I don't yet
+have plans for a web server or other locally hosted service, but those will be
+filled in here as they come online.
 
 ## Additional services
 
